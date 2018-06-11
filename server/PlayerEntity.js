@@ -33,10 +33,6 @@ var Entity = function(){
             self.y = self.maxY ;
     };
 
-    self.resetSpdXY = function(){
-        self.spdX = 0;
-        self.spdY = 0;  
-    };
     self.y = (self.y + self.maxY);
     return self;
 };

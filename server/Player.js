@@ -10,10 +10,12 @@ var Player = function(id, username){
 	self.pressingLeft = false;
 	self.pressingUp = false;
     self.pressingDown = false;
+    self.pressingMove = false;
     self.pressingWest = false;
     self.pressingEast = false;
     self.pressingNorth = false;
     self.pressingSouth = false;
+
     self.maxSpd = util.getPlayerMaxSpeed();
     self.color = util.getRandomColor();
     
@@ -25,13 +27,15 @@ var Player = function(id, username){
     };
 
     self.updateSpd = function(){
-        self.resetSpdXY();
-
+        // resetting the coordination values 
+        self.spdX = 0; self.spdY = 0; 
         switch (self.direction) {
             case ('west'):
                 if(self.pressingRight){
                     self.spdX =  0; 
                 } else if(self.pressingLeft){
+                    self.spdX =-  self.maxSpd; 
+                } else if(self.pressingMove){
                     self.spdX =-  self.maxSpd; 
                 } else {
                     self.spdX = 0;
@@ -39,6 +43,8 @@ var Player = function(id, username){
             break;
             case ('east'):
                 if(self.pressingRight){
+                    self.spdX =  self.maxSpd; 
+                } else if(self.pressingMove){
                     self.spdX =  self.maxSpd; 
                 } else if(self.pressingLeft){
                     self.spdX =  0; 
@@ -48,6 +54,8 @@ var Player = function(id, username){
             break;
             case ('north'):
                 if(self.pressingUp){
+                    self.spdY =- self.maxSpd; 
+                } else if(self.pressingMove){
                     self.spdY =- self.maxSpd; 
                 } else if(self.pressingDown){
                     self.spdY = 0; 
@@ -59,6 +67,8 @@ var Player = function(id, username){
                 if(self.pressingUp){
                     self.spdY = 0; 
                 } else if(self.pressingDown){
+                    self.spdY = self.maxSpd; 
+                } else if(self.pressingMove){
                     self.spdY = self.maxSpd; 
                 } else {
                     self.spdY = 0;	    
@@ -110,6 +120,8 @@ Player.onMove = function(id, data, callback){
         _player.pressingUp = data.state;
     } else if (data.inputId === "down") {
         _player.pressingDown = data.state;
+    } else if (data.inputId === "move") {
+        _player.pressingMove = data.state;
     } else if ( data.event == 'onkeydown' && 
                 (data.inputId === 'dleft' || 
                 data.inputId === 'dright' || 
@@ -134,6 +146,7 @@ Player.report = function(callback){
     return Player.list;
 };
 
+//updating the player direction
 Player.newDirection = function(id, command, state, olddir){
     var newdir = '';
     var _player = Player.list[id];
@@ -210,7 +223,6 @@ Player.update = function(){
     var packs = [];
     for (var key in Player.list) {
        var _player = Player.list[key];
-       _player.update();
        packs.push({
             x: _player.x, 
             y: _player.y, 
@@ -223,4 +235,5 @@ Player.update = function(){
     }
     return packs;
 };
+
 module.exports = Player;

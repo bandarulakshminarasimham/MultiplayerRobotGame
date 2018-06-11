@@ -30,14 +30,16 @@
                             emitPlayerActions(sockets, _player, data);
                         });
                     });
-                });
-               // disconnecting the player socket connection
-                socket.on('disconnect', function(){
-                    delete sockets[socket.id];
-                    Player.onDisconnect(socket.id, function(_player){
-                        emitPlayerState(sockets, _player, { message: "Disconnected" });
+
+                    // disconnecting the player socket connection
+                    socket.on('disconnect', function(){
+                        delete sockets[socket.id];
+                        Player.onDisconnect(socket.id, function(_player){
+                            emitPlayerState(sockets, _player, { message: "Disconnected" });
+                        });
                     });
                 });
+               
             });
             
         });

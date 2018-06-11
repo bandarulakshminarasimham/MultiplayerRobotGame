@@ -40,6 +40,8 @@ $(function(){
             socket.emit('moveGame', { inputId: 'left', state: true, event: 'onkeydown' });
         } else if (event.keyCode === 38) {
             socket.emit('moveGame', { inputId: 'up', state: true, event: 'onkeydown' });
+        } else if (event.keyCode === 77) {
+            socket.emit('moveGame', { inputId: 'move', state: true, event: 'onkeydown' });
         } else if (event.keyCode === 76) {
             socket.emit('directionChange', { inputId: 'dleft', state: true, event: 'onkeydown' });
         } else if (event.keyCode === 82) {
@@ -59,6 +61,8 @@ $(function(){
             socket.emit('moveGame', { inputId: 'left', state: false, event: 'onkeyup' });
         } else if (event.keyCode === 38) {
             socket.emit('moveGame', { inputId: 'up', state: false, event: 'onkeyup' });
+        } else if (event.keyCode === 77) {
+            socket.emit('moveGame', { inputId: 'move', state: false, event: 'onkeyup' });
         } else if (event.keyCode === 76) {
             socket.emit('directionChange', { inputId: 'dleft', state: false, event: 'onkeyup' });
         } else if (event.keyCode === 82) {
